@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Editar Alumno</title>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!--<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script> -->
+</head>
+<body>
+	<h1 id="holaMundo"></h1>
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+    apiKey: "AIzaSyB1u9Q3EX67SdkY8D8m6_zzZ-0YFrvlQP4",
+    authDomain: "proyecto-1-f3fca.firebaseapp.com",
+    databaseURL: "https://proyecto-1-f3fca.firebaseio.com",
+    projectId: "proyecto-1-f3fca",
+    storageBucket: "proyecto-1-f3fca.appspot.com",
+    messagingSenderId: "290090088956",
+    appId: "1:290090088956:web:dd7634609c5188c3a09a79",
+    //measurementId: "G-68SBB712F7"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+// Se conecta con la base de datos de Firebase
+var dataDB = firebase.database().ref('Alumnos');
+
+ var userId= window.name;
+
+    var Apellido, Edad, Nombre;
+    var Alumno={};
+
+    // Buscamos el artículo.
+    dataDB.child(userId).once('value',function(datos)
+    {
+        usuario=datos.val();
+
+        Apellido= Alumno.Apellido;
+        Edad= Alumno.Edad;
+        Nombre= Alumno.Nombre;
+
+        $('#lastname').val(Apellido);
+        $('#age').val(Edad);
+        $('#name').val(Nombre);
+    });
+
+function actualizar() {
+  // Se asigna a una variable cada elemento input con su ID
+var Apellido = document.getElementById('lastname');
+var Edad = document.getElementById('age');
+var Nombre = document.getElementById('name');
+
+dataDB.child(userId).update({
+		Apellido: Apellido.value,
+		Edad: Edad.value,
+		Nombre: Nombre.value
+	});
+
+    alert('Alumno actualizado');
+}
+</script>
+  <form action="" method="post">
+    <input id="lastname" class="input" type="text" value="" placeholder="Apellido" required /><br />
+    <input id="age" class="input" type="text" value="" placeholder="Edad" required /><br />
+  <input id="name" class="input" type="text" value="" maxlength="100" placeholder="Nombre" required /><br />
+  <button id="submit_button" type="submit" onclick="actualizar()">Actualizar</button>
+	<input type="button" onclick="location.href='users2.html';" value="Regresar"/>
+  </form>
+</body>
+</html>

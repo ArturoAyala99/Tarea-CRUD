@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nuevo Alumno</title>
+</head>
+<body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+	apiKey: "AIzaSyB1u9Q3EX67SdkY8D8m6_zzZ-0YFrvlQP4",
+    authDomain: "proyecto-1-f3fca.firebaseapp.com",
+    databaseURL: "https://proyecto-1-f3fca.firebaseio.com",
+    projectId: "proyecto-1-f3fca",
+    storageBucket: "proyecto-1-f3fca.appspot.com",
+    messagingSenderId: "290090088956",
+    appId: "1:290090088956:web:dd7634609c5188c3a09a79",
+    //measurementId: "G-68SBB712F7"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  //Guardando la info en la BD de FireBase
+// crear referencia a la BD
+var dataDB= firebase.database().ref('Alumnos').push();
+
+function agregar()
+{
+	var Apellido= document.getElementById('Apellido');
+	var Edad= document.getElementById('Edad');
+	var Nombre= document.getElementById('Nombre');
+	dataDB.set({
+			Apellido: Apellido.value,
+			Edad: Edad.value,
+			Nombre: Nombre.value
+		});
+	alert('Alumno agregado correctamente');
+}
+
+</script>
+<h1>Agregar Alumno</h1>
+<form action="" method="post">
+    <input id="Apellido" class="input" type="text" value="" placeholder="Apellido" required /><br />
+    <input id="Edad" class="input" type="text" value="" placeholder="Edad" required /><br />
+  <input id="Nombre" class="input" type="text" value="" maxlength="100" placeholder="Nombre" required /><br />
+  <button id="submit_button" type="submit" onclick="agregar()">agregar</button>
+	<input type="button" onclick="location.href='users2.html';" value="Regresar"/>
+  </form>
+
+</body>
+</html>

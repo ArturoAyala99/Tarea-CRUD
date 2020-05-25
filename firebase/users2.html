@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lista de Alumnos</title>
+</head>
+<body>
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+	var firebaseConfig = {
+	apiKey: "AIzaSyB1u9Q3EX67SdkY8D8m6_zzZ-0YFrvlQP4",
+    authDomain: "proyecto-1-f3fca.firebaseapp.com",
+    databaseURL: "https://proyecto-1-f3fca.firebaseio.com",
+    projectId: "proyecto-1-f3fca",
+    storageBucket: "proyecto-1-f3fca.appspot.com",
+    messagingSenderId: "290090088956",
+    appId: "1:290090088956:web:dd7634609c5188c3a09a79",
+    //measurementId: "G-68SBB712F7"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+var refDB = firebase.database().ref().child('Alumnos');
+var Alumnos={};
+refDB.on('value',function(datos)
+{
+		$("tbody").children().remove()
+    Alumnos=datos.val();
+    // Recorremos los productos y los mostramos
+    $.each(Alumnos, function(indice,valor)
+    {
+        var tBody = document.getElementById('dataTable').lastElementChild;
+        var tr1 = document.createElement('tr');
+        tBody.appendChild(tr1);
+        var prevProducto='<td>'+valor.Apellido+'</td>';
+        prevProducto+='<td>'+valor.Edad+'</td>';
+        prevProducto+='<td>'+valor.Nombre+'</td>';
+        prevProducto+='<td><button type="button" class="btn btn-warning" onclick="editar(\''+indice+'\')">Editar</button></td>';
+        prevProducto+='<td><button type="button" class="btn btn-danger" onclick="borrar(\''+indice+'\')">Borrar</button></td>';
+		
+        $(prevProducto).appendTo(tr1);
+
+    });
+
+},function(objetoError){
+    console.log('Error de lectura:'+objetoError.code);
+});
+
+function editar(id)
+{
+    // Para pasar el ID a otro proceso lo hacemos a través de window.name
+    window.name= id;
+
+    // Cargamos la página editarproducto.html
+    location.assign('editar.html');
+}
+
+
+
+
+
+function borrar(id)
+{
+	if(confirm("¿Esta seguro de que desea borrar al alumno?")==true)
+	{
+		refDB.child(id).remove();
+	}
+}
+
+
+
+function buscar(Alumno){
+		if (Alumno != "") {
+			refDB.orderByChild('Nombre').equalTo(Alumno).limitToFirst(5).on('value',function(datos)
+			{
+					$("tbody").children().remove()
+					Alumnos=datos.val();
+					// Recorremos los productos y los mostramos
+					$.each(Alumnos, function(indice,valor)
+					{
+							var tBody = document.getElementById('dataTable').lastElementChild;
+							var tr1 = document.createElement('tr');
+							tBody.appendChild(tr1);
+							var prevProducto='<td>'+valor.Apellido+'</td>';
+							prevProducto+='<td>'+valor.Edad+'</td>';
+							prevProducto+='<td>'+valor.Nombre+'</td>';
+							prevProducto+='<td><button type="button" class="btn btn-warning" onclick="editar(\''+indice+'\')">Editar</button></td>';
+							prevProducto+='<td><button type="button" class="btn btn-danger" onclick="borrar(\''+indice+'\')">Borrar</button></td>';
+							
+							$(prevProducto).appendTo(tr1);
+
+					});
+
+			},function(objetoError){
+					console.log('Error de lectura:'+objetoError.code);
+			});
+		} else {
+			refDB.on('value',function(datos)
+			{
+					$("tbody").children().remove()
+			    Alumnos=datos.val();
+			    // Recorremos los productos y los mostramos
+			    $.each(Alumnos, function(indice,valor)
+			    {
+			        var tBody = document.getElementById('dataTable').lastElementChild;
+			        var tr1 = document.createElement('tr');
+			        tBody.appendChild(tr1);
+			        var prevProducto='<td>'+valor.Apellido+'</td>';
+			        prevProducto+='<td>'+valor.Edad+'</td>';
+			        prevProducto+='<td>'+valor.Nombre+'</td>';
+			        prevProducto+='<td><button type="button" class="btn btn-warning" onclick="editar(\''+indice+'\')">Editar</button></td>';
+			        prevProducto+='<td><button type="button" class="btn btn-danger" onclick="borrar(\''+indice+'\')">Borrar</button></td>';
+					
+			        $(prevProducto).appendTo(tr1);
+
+
+			    });
+
+			},function(objetoError){
+			    console.log('Error de lectura:'+objetoError.code);
+			});
+		}
+		
+
+}
+
+	</script>
+<div class="container-fluid" id="listado">
+        <h1>Listado de Alumnos</h1>
+				<form action="" method="post">
+					<label for="">Nombre:</label>
+					<input type="text" name="Alumno" id="Alumno">
+					<button id="submit_button" type="button" onclick="buscar(Alumno.value)">Buscar</button>
+					<input type="button" onclick="location.href='agregar.html';" value="Agregar"/>
+				</form>
+				<br><br>
+        <table id="dataTable" border="1px" border-color="#000" width="800px">
+          <thead>
+     <th>Apellido</th><th>Edad</th><th>Nombre</th><th colspan="2">Acciones</th>
+  </thead>
+  <tbody></tbody>
+</table>
+    </div>
+</body>
+</html>

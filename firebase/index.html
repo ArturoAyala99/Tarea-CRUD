@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> Alumnos Universidad Modelo </title>
+  </head>
+  <body>
+    <h1 id="holaMundo"></h1>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyB1u9Q3EX67SdkY8D8m6_zzZ-0YFrvlQP4",
+    authDomain: "proyecto-1-f3fca.firebaseapp.com",
+    databaseURL: "https://proyecto-1-f3fca.firebaseio.com",
+    projectId: "proyecto-1-f3fca",
+    storageBucket: "proyecto-1-f3fca.appspot.com",
+    messagingSenderId: "290090088956",
+    appId: "1:290090088956:web:dd7634609c5188c3a09a79",
+    //measurementId: "G-68SBB712F7"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  var holaMundo = document.getElementById('holaMundo');
+  //var referencia = firebase.database().ref('users').child('id-1').child('nombre');
+  //var referencia = firebase.database().ref('users/id-1/correo');
+  //referencia.on('value',snap => holaMundo.innerText = snap.val());
+
+  var referencia = firebase.database().ref('Alumnos');
+  var obj = {
+    Apellido:"Cardenas",
+    Edad:"22",
+    Nombre:"Raul"
+  };
+  referencia.set(obj);
+
+</script>
+
+
+  </body>
+</html>
